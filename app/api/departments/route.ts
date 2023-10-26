@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 
-export async function Get(req: Request) {
+export async function GET(req: Request) {
   try {
     const department = await prismadb.department.findMany({});
 

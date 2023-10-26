@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 
-export async function Get(req: Request) {
+export async function GET(req: Request) {
   try {
     const users = await prismadb.user.findMany({});
 
@@ -18,17 +18,21 @@ export async function POST(req: Request) {
 
     const {
       name,
+      email,
       // imgUrl,
-      superAccess,
+      superUser,
       userAccess,
       departmentAccess,
       departmentName,
     } = body;
 
+    const imageUrl = "";
+
     if (
       !name ||
-      // !imgUrl ||
-      !superAccess ||
+      !email ||
+      !imageUrl ||
+      !superUser ||
       !userAccess ||
       !departmentAccess ||
       !departmentName
@@ -39,8 +43,9 @@ export async function POST(req: Request) {
     const user = await prismadb.user.create({
       data: {
         name,
-        // imgUrl,
-        superAccess,
+        email,
+        imageUrl,
+        superUser,
         userAccess,
         departmentAccess,
         departmentName,
