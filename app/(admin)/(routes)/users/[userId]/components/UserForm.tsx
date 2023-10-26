@@ -39,9 +39,12 @@ import Link from "next/link";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  email: z.string().min(1),
+  email: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .email("This is not a valid email."),
   imgUrl: z.string().min(1),
-  superAccess: z.boolean(),
+  superUser: z.boolean(),
   userAccess: z.boolean(),
   departmentAccess: z.boolean(),
   departmentName: z.string().min(1),
@@ -70,8 +73,9 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
+      email: "",
       imgUrl: "",
-      superAccess: false,
+      superUser: false,
       userAccess: true,
       departmentAccess: false,
       departmentName: "",
@@ -258,7 +262,7 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
             />
             <FormField
               control={form.control}
-              name="superAccess"
+              name="superUser"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
