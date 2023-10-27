@@ -43,7 +43,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "This field has to be filled." })
     .email("This is not a valid email."),
-  imgUrl: z.string().min(1),
+  // imgUrl: z.string().min(1),
   superUser: z.boolean(),
   userAccess: z.boolean(),
   departmentAccess: z.boolean(),
@@ -74,9 +74,9 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
     defaultValues: initialData || {
       name: "",
       email: "",
-      imgUrl: "",
+      // imgUrl: "",
       superUser: false,
-      userAccess: true,
+      userAccess: false,
       departmentAccess: false,
       departmentName: "",
     },
@@ -84,23 +84,18 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
 
   const onSubmit = async (data: UserFormValues) => {
     setLoading(true);
-    console.log("here");
-    console.log(data);
     try {
-      console.log(data);
-
-      // if (initialData) {
-      //   await axios.patch(`/api/users/${params.userId}`, data);
-      // } else {
-      //   await axios.post(`/api/users`, data);
-      // }
-
-      // router.refresh();
-      // router.push("/departments");
-      // toast({
-      //   description: toastMessage,
-      //   variant: "success",
-      // });
+      if (initialData) {
+        await axios.patch(`/api/users/${params.userId}`, data);
+      } else {
+        await axios.post(`/api/users`, data);
+      }
+      router.refresh();
+      router.push("/users");
+      toast({
+        description: toastMessage,
+        variant: "success",
+      });
     } catch (error: any) {
       console.log(error);
       if (error.response.data) {
@@ -124,9 +119,9 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
   const onDelete = async () => {
     setLoading(true);
     try {
-      await axios.delete(`/api/departments/${params.userId}`);
+      await axios.delete(`/api/users/${params.userId}`);
       router.refresh();
-      router.push(`/departments`);
+      router.push(`/users`);
     } catch (error) {
       toast({
         description: "Something went wrong!!",
@@ -189,7 +184,7 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>User Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}

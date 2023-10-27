@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 import { DepartmentsColumnTypes } from "../app/(admin)/(routes)/departments/components/columns";
+import { UsersColumnTypes } from "../app/(admin)/(routes)/users/components/columns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +20,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import AlertModal from "@/components/modals/AlertModal";
-import { UsersColumnTypes } from "@/app/(admin)/(routes)/users/components/columns";
 
 interface CellActionProps {
   data: DepartmentsColumnTypes | UsersColumnTypes;

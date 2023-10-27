@@ -19,32 +19,38 @@ export async function POST(req: Request) {
     const {
       name,
       email,
-      // imgUrl,
       superUser,
       userAccess,
       departmentAccess,
       departmentName,
     } = body;
 
-    const imageUrl = "";
+    // const imageUrl = "";
 
-    if (
-      !name ||
-      !email ||
-      !imageUrl ||
-      !superUser ||
-      !userAccess ||
-      !departmentAccess ||
-      !departmentName
-    ) {
+    if (!name || !email || !departmentName) {
       return new NextResponse("Some input data is missing!!", { status: 400 });
     }
+
+    if (
+      superUser === null ||
+      !userAccess === null ||
+      !departmentAccess === null
+    ) {
+      return new NextResponse("Access input data is missing!!", {
+        status: 400,
+      });
+    }
+
+    const department = await prismadb.department.findUnique({
+      where: {
+        departmentName: departmentName,
+      },
+    });
 
     const user = await prismadb.user.create({
       data: {
         name,
         email,
-        imageUrl,
         superUser,
         userAccess,
         departmentAccess,

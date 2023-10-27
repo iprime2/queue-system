@@ -3,102 +3,105 @@ import prismadb from "@/lib/prismadb";
 
 export async function GET(
   req: Request,
-  { params }: { params: { departmentId: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const { departmentId } = params;
+    const { userId } = params;
 
     // if (!userId) {
     //   return new NextResponse("Unauthenticated", { status: 401 });
     // }
 
-    if (!departmentId) {
-      return new NextResponse("Department Id is required", { status: 400 });
+    if (!userId) {
+      return new NextResponse("User Id is required", { status: 400 });
     }
 
-    const department = await prismadb.department.findUnique({
+    const user = await prismadb.user.findUnique({
       where: {
-        id: departmentId,
+        id: userId,
       },
     });
 
-    return NextResponse.json(department);
+    return NextResponse.json(user);
   } catch (error) {
-    console.log("[DEPARTMENT_GET]", error);
+    console.log("[USER_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { departmentId: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const { departmentId } = params;
+    const { userId } = params;
     const body = await req.json();
 
-    const { departmentName, schoolName, code } = body;
+    const {
+      name,
+      email,
+      superUser,
+      userAccess,
+      departmentAccess,
+      departmentName,
+    } = body;
 
     // if (!userId) {
     //   return new NextResponse("Unauthenticated", { status: 401 });
     // }
 
-    if (!departmentName) {
-      return new NextResponse("Department Name required", {
-        status: 400,
-      });
+    if (
+      !name ||
+      !email ||
+      !superUser ||
+      !userAccess ||
+      !departmentAccess ||
+      !departmentName
+    ) {
+      return new NextResponse("Some input data is missing!!", { status: 400 });
     }
 
-    if (!schoolName) {
-      return new NextResponse("School Name is required", {
-        status: 400,
-      });
-    }
-
-    if (!code) {
-      return new NextResponse("Code is required", {
-        status: 400,
-      });
-    }
-
-    const department = await prismadb.department.updateMany({
+    const user = await prismadb.user.updateMany({
       where: {
-        id: departmentId,
+        id: userId,
       },
       data: {
+        name,
+        email,
+        superUser,
+        userAccess,
+        departmentAccess,
         departmentName,
-        schoolName,
-        code,
       },
     });
 
-    return NextResponse.json(department);
+    return NextResponse.json(user);
   } catch (error) {
-    console.log("[DEPARTMENT_PATCH]", error);
+    console.log("[USER_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { departmentId: string } }
+  { params }: { params: { userId: string } }
 ) {
   try {
-    const { departmentId } = params;
+    const { userId } = params;
 
-    if (!departmentId) {
-      return new NextResponse("Department Id is required", { status: 400 });
+    if (!userId) {
+      return new NextResponse("User Id is required", { status: 400 });
     }
 
-    const department = await prismadb.department.deleteMany({
+    const department = await prismadb.user.deleteMany({
       where: {
-        id: departmentId,
+        id: userId,
       },
     });
 
     return NextResponse.json(department);
   } catch (error) {
-    console.log("[DEPARTMENT_DELETE]", error);
+    console.log("[USER_DELETE]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
