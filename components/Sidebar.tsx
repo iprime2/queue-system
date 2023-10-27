@@ -8,6 +8,7 @@ import { Montserrat } from "next/font/google";
 import {
   LayoutDashboardIcon,
   LogOutIcon,
+  MonitorIcon,
   School2Icon,
   SettingsIcon,
   TicketIcon,
@@ -25,8 +26,8 @@ const routes = [
     color: "text-sky-500",
   },
   {
-    label: "Ticket",
-    href: "/ticket",
+    label: "Token",
+    href: "/token",
     icon: TicketIcon,
     color: "text-green-700",
   },
@@ -40,6 +41,12 @@ const routes = [
     label: "Departments",
     href: "/departments",
     icon: School2Icon,
+    color: "text-orange-700",
+  },
+  {
+    label: "Counter",
+    href: "/counter",
+    icon: MonitorIcon,
     color: "text-orange-700",
   },
   {
