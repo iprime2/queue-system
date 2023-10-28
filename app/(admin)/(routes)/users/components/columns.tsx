@@ -13,7 +13,6 @@ export type UsersColumnTypes = {
   name: string;
   email: string;
   departmentName: string;
-  imageUrl: string;
   superUser: boolean;
   userAccess: boolean;
   departmentAccess: boolean;
