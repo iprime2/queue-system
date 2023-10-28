@@ -3,8 +3,8 @@ import { FC } from "react";
 import Heading from "@/components/Heading";
 import MainBody from "@/components/MainBody";
 import UserForm from "./components/UserForm";
-import { getUsers } from "@/actions/getUsers";
 import { getDepartmentsName } from "@/actions/getDepartmentsName";
+import { getUser } from "@/actions/getUser";
 
 interface UserPageProps {
   params: { userId: string };
@@ -15,10 +15,10 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
   //   redirect("/");
   // }
 
-  const usersData = await getUsers();
-  const departmentsName = await getDepartmentsName();
-
   const userId = params.userId;
+
+  const usersData = await getUser(userId);
+  const departmentsName = await getDepartmentsName();
 
   return (
     <UserForm initialData={usersData} departmentsNameData={departmentsName} />
