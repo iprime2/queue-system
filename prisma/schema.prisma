@@ -40,5 +40,26 @@ model Department {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  user User[] @relation("UserToDepartment")
+  user    User[]    @relation("UserToDepartment")
+  token   Token[]   @relation("DepartmentToToken")
+  display Display[] @relation("DisplayToDepartment")
+}
+
+model Token {
+  id             String     @id @default(uuid())
+  tokenNo        Int
+  displayName    String
+  departmentName String
+  department     Department @relation("DepartmentToToken", fields: [departmentName], references: [departmentName])
+  closeddAt      DateTime
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Display {
+  id             String     @id @default(uuid())
+  departmentName String
+  department     Department @relation("DisplayToDepartment", fields: [departmentName], references: [departmentName])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }
