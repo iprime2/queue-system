@@ -58,6 +58,7 @@ Before you start, make sure you have the following installed on your system:
 
    Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
+
 # Basic Git Commands
    Here are some common Git commands to work with this repository:
 
@@ -65,28 +66,35 @@ Before you start, make sure you have the following installed on your system:
    ```bash
    git clone https://github.com/yourusername/AQMS.git
 
+
 ## Switch to a Branch
    ```bash
    git checkout branch_name
+
 
 ## List Branches
    ```bash
    git branch
 
+
 ## Check Status
    ```bash
    git status
+
 
 ## Add Files for Commit
    ```bash
    git add file1 file2
 
+
 ## Make a Commit
    ```bash
    git commit -m "Your commit message here"
 
+
 ## Push Changes to the Repository
    ```bash
    git push origin branch_name
+
 
 Please replace yourusername with your actual GitHub username and adjust the branch names as needed.
