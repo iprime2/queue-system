@@ -28,7 +28,7 @@ Before you start, make sure you have the following installed on your system:
 
    Navigate to the project directory and run the following command to install project dependencies using npm or pnpm:
 
-  ```bash
+   ```bash
    # Using NPM (Node Package Manager)
    npm install
 
