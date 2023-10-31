@@ -53,7 +53,6 @@ Before you start, make sure you have the following installed on your system:
 
    # OR Using PNPM
    pnpm dev
-
 Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
 # Basic Git Commands
@@ -61,7 +60,7 @@ Your AQMS application should now be accessible in your browser at http://localho
 
 ## Clone the Repository
    ```bash
-   git clone https://github.com/yourusername/AQMS.git
+   git clone [https://github.com/iprime2/queue-system](https://github.com/iprime2/queue-system)
 
 ## Switch to a Branch
    ```bash
