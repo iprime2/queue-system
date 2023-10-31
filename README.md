@@ -35,7 +35,6 @@ Before you start, make sure you have the following installed on your system:
    # OR Using PNPM (Package Manager)
    pnpm install
 
-
 4. **Create .env File:**
 
    Create a .env file in the project root and define your environment variables. Example:
@@ -43,7 +42,6 @@ Before you start, make sure you have the following installed on your system:
    ```bash
    DB_URL=your_database_url
    OTHER_VARIABLE=your_value
-
 
 ## Start the Development Server
 
@@ -56,8 +54,7 @@ Before you start, make sure you have the following installed on your system:
    # OR Using PNPM
    pnpm dev
 
-
-   Your AQMS application should now be accessible in your browser at http://localhost:3000.
+Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
 # Basic Git Commands
    Here are some common Git commands to work with this repository:
@@ -65,7 +62,6 @@ Before you start, make sure you have the following installed on your system:
 ## Clone the Repository
    ```bash
    git clone https://github.com/yourusername/AQMS.git
-
 
 ## Switch to a Branch
    ```bash
