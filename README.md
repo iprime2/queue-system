@@ -43,7 +43,7 @@ Before you start, make sure you have the following installed on your system:
    DB_URL=your_database_url
    OTHER_VARIABLE=your_value
 
-## Start the Development Server
+### Start the Development Server
 
 To start the development server, run the following command:
 
