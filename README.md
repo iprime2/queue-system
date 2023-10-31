@@ -86,5 +86,3 @@ Your AQMS application should now be accessible in your browser at http://localho
 ### Push Changes to the Repository
    ```bash
    git push origin branch_name
-
-Please replace yourusername with your actual GitHub username and adjust the branch names as needed.
