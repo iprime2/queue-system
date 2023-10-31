@@ -1,7 +1,5 @@
 # Automatic Queue Management System (AQMS)
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
 AQMS is a web-based system designed to streamline the management of student tickets within educational institutions. This README provides instructions for setting up the project and basic Git commands to work with this repository.
 
 ## Getting Started
