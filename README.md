@@ -41,9 +41,9 @@ Before you start, make sure you have the following installed on your system:
    Create a .env file in the project root and define your environment variables. Example:
 
    ```bash
-   env
    DB_URL=your_database_url
    OTHER_VARIABLE=your_value
+
 
 ## Start the Development Server
 
