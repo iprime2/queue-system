@@ -55,34 +55,34 @@ Before you start, make sure you have the following installed on your system:
 
 Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
-# Basic Git Commands
+## Basic Git Commands
    Here are some common Git commands to work with this repository:
 
-## Clone the Repository
+### Clone the Repository
    ```bash
    git clone [https://github.com/iprime2/queue-system](https://github.com/iprime2/queue-system)
 
-## Switch to a Branch
+### Switch to a Branch
    ```bash
    git checkout branch_name
 
-## List Branches
+### List Branches
    ```bash
    git branch
 
-## Check Status
+### Check Status
    ```bash
    git status
 
-## Add Files for Commit
+### Add Files for Commit
    ```bash
    git add file1 file2
 
-## Make a Commit
+### Make a Commit
    ```bash
    git commit -m "Your commit message here"
 
-## Push Changes to the Repository
+### Push Changes to the Repository
    ```bash
    git push origin branch_name
 
