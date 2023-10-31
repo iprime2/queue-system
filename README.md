@@ -47,11 +47,12 @@ Before you start, make sure you have the following installed on your system:
 
 To start the development server, run the following command:
 
-   # Using NPM
-   npm run dev
+   ```bash
+   # Using NPM (Node Package Manager)
+   npm install
 
-   # OR Using PNPM
-   pnpm dev
+   # OR Using PNPM (Package Manager)
+   pnpm install
 
 Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
