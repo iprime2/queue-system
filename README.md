@@ -51,8 +51,7 @@ To start the development server, run the following command:
    hello
 
 
-
-## Basic Git Commands
+### Basic Git Commands
 
 Here are some common Git commands to work with this repository:
 
