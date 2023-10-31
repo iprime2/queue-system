@@ -26,7 +26,7 @@ Before you start, make sure you have the following installed on your system:
 
 3. **Install Project Dependencies:**
 
-Navigate to the project directory and run the following command to install project dependencies using npm or pnpm:
+   Navigate to the project directory and run the following command to install project dependencies using npm or pnpm:
 
   ```bash
    # Using NPM (Node Package Manager)
@@ -38,7 +38,7 @@ Navigate to the project directory and run the following command to install proje
 
 4. **Create .env File:**
 
-Create a .env file in the project root and define your environment variables. Example:
+   Create a .env file in the project root and define your environment variables. Example:
 
    ```bash
    env
@@ -46,7 +46,8 @@ Create a .env file in the project root and define your environment variables. Ex
    OTHER_VARIABLE=your_value
 
 ## Start the Development Server
-To start the development server, run the following command:
+
+   To start the development server, run the following command:
 
    ```bash
    # Using NPM
@@ -55,10 +56,10 @@ To start the development server, run the following command:
    # OR Using PNPM
    pnpm dev
 
-Your AQMS application should now be accessible in your browser at http://localhost:3000.
+   Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
 # Basic Git Commands
-Here are some common Git commands to work with this repository:
+   Here are some common Git commands to work with this repository:
 
 ## Clone the Repository
    ```bash
