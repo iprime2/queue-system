@@ -47,12 +47,6 @@ Before you start, make sure you have the following installed on your system:
 
 To start the development server, run the following command:
 
-   ```bash
-   # Using NPM (Node Package Manager)
-   npm install
-
-   # OR Using PNPM (Package Manager)
-   pnpm install
 
 ## Basic Git Commands
 
