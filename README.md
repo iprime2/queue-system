@@ -35,6 +35,7 @@ Navigate to the project directory and run the following command to install proje
    # OR Using PNPM (Package Manager)
    pnpm install
 
+
 4. **Create .env File:**
 
 Create a .env file in the project root and define your environment variables. Example:
