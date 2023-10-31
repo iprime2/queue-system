@@ -56,7 +56,8 @@ To start the development server, run the following command:
 Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
 ### Basic Git Commands
-   Here are some common Git commands to work with this repository:
+
+Here are some common Git commands to work with this repository:
 
 1. **Clone the Repository**
 
