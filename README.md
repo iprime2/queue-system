@@ -36,11 +36,12 @@ Before you start, make sure you have the following installed on your system:
 
 5. **Pull Git Repository from GitHub:**
 
-To clone a Git repository from GitHub to your local machine, run the following command (replace <repository_url> with the actual repository URL):
+   To clone a Git repository from GitHub to your local machine, run the following command (replace <repository_url> with the actual repository URL):
 
    ```bash
    git clone https://github.com/iprime2/queue-system.git
 
+   This will create a local copy of the GitHub repository on your machine, which you can then work with.
 
 6. **Install Project Dependencies:**
 
@@ -63,17 +64,14 @@ To clone a Git repository from GitHub to your local machine, run the following c
 
 ### Start the Development Server
 
-To start the development server, run the following command:
+   To start the development server, run the following command:
 
    Using NPM 
-   
    npm run dev
-
    OR Using PNPM
-   
    pnpm dev
 
-Your AQMS application should now be accessible in your browser at http://localhost:3000.
+   Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
 ### Basic Git Commands
 
