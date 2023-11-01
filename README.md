@@ -113,7 +113,3 @@ Here are some common Git commands to work with this repository:
 
    ```bash
    git push origin branch_name
-
-
-```bash
-helo
