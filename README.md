@@ -67,7 +67,6 @@ This will create a local copy of the GitHub repository on your machine, which yo
 
    To start the development server, run the following command:
 
-    ```bash
     #Using NPM 
     npm run dev
       
