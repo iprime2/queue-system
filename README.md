@@ -42,7 +42,7 @@ Before you start, make sure you have the following installed on your system:
    git clone https://github.com/iprime2/queue-system.git
 
 
-This will create a local copy of the GitHub repository on your machine, which you can then work with.
+   This will create a local copy of the GitHub repository on your machine, which you can then work with.
 
 6. **Install Project Dependencies:**
 
