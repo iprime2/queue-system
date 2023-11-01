@@ -67,13 +67,13 @@ This will create a local copy of the GitHub repository on your machine, which yo
 
    To start the development server, run the following command:
 
-   ``bash
-   Using NPM 
-   npm run dev
-   OR Using PNPM
-   pnpm dev
+    ```bash
+    #Using NPM 
+    npm run dev
+      
+    #OR Using PNPM
+    pnpm dev
 
-   
 Your AQMS application should now be accessible in your browser at http://localhost:3000.
 
 ### Basic Git Commands
