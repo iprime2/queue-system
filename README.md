@@ -40,6 +40,7 @@ To clone a Git repository from GitHub to your local machine, run the following c
 
    ```bash
    git clone https://github.com/iprime2/queue-system.git
+
 This will create a local copy of the GitHub repository on your machine, which you can then work with.
 
 6. **Install Project Dependencies:**
