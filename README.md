@@ -10,6 +10,7 @@ Before you start, make sure you have the following installed on your system:
 
 - [Node.js](https://nodejs.org/en/download/): A JavaScript runtime for running the Next.js application.
 - [PNPM](https://pnpm.io/): A package manager (optional) for installing project dependencies.
+- [Visual Studio Code (VSCode)](https://code.visualstudio.com/download) or your preferred Integrated Development Environment (IDE): A code editor with extensions that enhance your development experience.
 
 ### Installation
 
@@ -24,7 +25,24 @@ Before you start, make sure you have the following installed on your system:
    ```bash
    npm install -g pnpm
 
-3. **Install Project Dependencies:**
+3. **Install Visual Studio Code (VSCode) or Your Preferred IDE:**
+
+   Download and install Visual Studio Code from the official website or your preferred Integrated Development Environment (IDE). Ensure you have the necessary extensions and plugins installed for a seamless development experience.
+
+4. **Create Folder and Open with VSCode:**
+
+   - Create a new folder named "queue-management" on your desktop or any preferred location.
+   - Open the "queue-management" folder using your Visual Studio Code (VSCode) or your preferred IDE.
+
+5. **Pull Git Repository from GitHub:**
+
+To clone a Git repository from GitHub to your local machine, run the following command (replace <repository_url> with the actual repository URL):
+
+   ```bash
+   git clone https://github.com/iprime2/queue-system.git
+This will create a local copy of the GitHub repository on your machine, which you can then work with.
+
+6. **Install Project Dependencies:**
 
    Navigate to the project directory and run the following command to install project dependencies using npm or pnpm:
 
@@ -35,7 +53,7 @@ Before you start, make sure you have the following installed on your system:
    # OR Using PNPM (Package Manager)
    pnpm install
 
-4. **Create .env File:**
+7. **Create .env File:**
 
    Create a .env file in the project root and define your environment variables. Example:
 
