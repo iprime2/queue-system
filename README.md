@@ -82,7 +82,7 @@ Here are some common Git commands to work with this repository:
 1. **Clone the Repository**
 
    ```bash
-   git clone [https://github.com/iprime2/queue-system](https://github.com/iprime2/queue-system)
+   git clone https://github.com/iprime2/queue-system.git
 
 2. **Switch to a Branch**
 
