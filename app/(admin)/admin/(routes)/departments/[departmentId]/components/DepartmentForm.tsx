@@ -71,7 +71,7 @@ const DepartmentForm: FC<DepartmentFormPops> = ({ initialData }) => {
       }
 
       router.refresh();
-      router.push("/departments");
+      router.push("/admin/departments");
       toast({
         description: toastMessage,
         variant: "success",

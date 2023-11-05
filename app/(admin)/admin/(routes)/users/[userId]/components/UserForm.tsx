@@ -43,6 +43,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "This field has to be filled." })
     .email("This is not a valid email."),
+  password: z.string().min(4),
   // imgUrl: z.string().min(1),
   superUser: z.boolean(),
   userAccess: z.boolean(),
@@ -74,6 +75,7 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
     defaultValues: initialData || {
       name: "",
       email: "",
+      password: "",
       // imgUrl: "",
       superUser: false,
       userAccess: false,
@@ -86,12 +88,12 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
     setLoading(true);
     try {
       if (initialData) {
-        await axios.patch(`/api/users/${params.userId}`, data);
+        await axios.patch(`/api/users/${params?.userId}`, data);
       } else {
         await axios.post(`/api/users`, data);
       }
       router.refresh();
-      router.push("/users");
+      router.push("/admin/users");
       toast({
         description: toastMessage,
         variant: "success",
@@ -119,9 +121,9 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
   const onDelete = async () => {
     setLoading(true);
     try {
-      await axios.delete(`/api/users/${params.userId}`);
+      await axios.delete(`/api/users/${params?.userId}`);
       router.refresh();
-      router.push(`/users`);
+      router.push(`/admin/users`);
     } catch (error) {
       toast({
         description: "Something went wrong!!",
@@ -206,6 +208,24 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
                     <Input
                       disabled={loading}
                       placeholder="Email of user"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Password"
+                      type="password"
                       {...field}
                     />
                   </FormControl>

@@ -1,4 +1,6 @@
+import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
+
 import prismadb from "@/lib/prismadb";
 
 export async function GET(req: Request) {
@@ -19,6 +21,7 @@ export async function POST(req: Request) {
     const {
       name,
       email,
+      password,
       superUser,
       userAccess,
       departmentAccess,
@@ -27,7 +30,7 @@ export async function POST(req: Request) {
 
     // const imageUrl = "";
 
-    if (!name || !email || !departmentName) {
+    if (!name || !email || !password || !departmentName) {
       return new NextResponse("Some input data is missing!!", { status: 400 });
     }
 
@@ -47,10 +50,14 @@ export async function POST(req: Request) {
       },
     });
 
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     const user = await prismadb.user.create({
       data: {
         name,
         email,
+        password: hashedPassword,
         superUser,
         userAccess,
         departmentAccess,

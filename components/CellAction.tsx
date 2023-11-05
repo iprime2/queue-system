@@ -5,11 +5,8 @@ import { Copy } from "lucide-react";
 import { Trash } from "lucide-react";
 import { Edit, MoreHorizontal } from "lucide-react";
 import axios from "axios";
-
 import { toast } from "react-hot-toast";
 
-import { DepartmentsColumnTypes } from "../app/(admin)/(routes)/departments/components/columns";
-import { UsersColumnTypes } from "../app/(admin)/(routes)/users/components/columns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import AlertModal from "@/components/modals/AlertModal";
+import { DepartmentsColumnTypes } from "@/app/(admin)/admin/(routes)/departments/components/columns";
+import { UsersColumnTypes } from "@/app/(admin)/admin/(routes)/users/components/columns";
 
 interface CellActionProps {
   data: DepartmentsColumnTypes | UsersColumnTypes;
@@ -73,7 +72,9 @@ const CellAction: FC<CellActionProps> = ({ data, type }) => {
             <Copy className="mr-2 h-4 w-4" />
             Copy Id
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push(`/${type}/${data.id}`)}>
+          <DropdownMenuItem
+            onClick={() => router.push(`/admin/${type}/${data.id}`)}
+          >
             <Edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
