@@ -55,7 +55,7 @@ export default function Home() {
         email,
         password,
       });
-      router.push("/admin");
+      router.push("/admin/dashboard");
       toast({
         title: "Signed In!",
         description: "Redirecting to dashboard!",
@@ -84,7 +84,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center bg-black/80 h-screen p-5">
-      <div className="flex w-full md:w-[80%] lg:w-[50%] my-20 h-auto flex-col border rounded-md items-center px-2 py-4 md:p-10 gap-2 bg-white">
+      <div className="flex w-full md:w-[80%] lg:w-[50%] my-20 h-auto flex-col border rounded-md items-center px-6 py-6 md:p-10 gap-2 bg-white">
         <div className="flex w-full">
           <Heading
             title={"Sign In"}

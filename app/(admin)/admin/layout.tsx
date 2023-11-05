@@ -5,7 +5,8 @@ import Sidebar from "@/components/Sidebar";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/dist/server/api-utils";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { authOptions } from "@/app/api/auth/[...nextauth]";
+import { useRouter } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -23,10 +24,6 @@ export default async function DashboardLayout({
   // });
 
   console.log(session);
-
-  if (!session) {
-    // redirect({"/"});
-  }
 
   return (
     <div className="h-full relative">
