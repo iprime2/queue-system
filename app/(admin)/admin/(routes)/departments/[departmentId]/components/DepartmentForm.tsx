@@ -65,7 +65,7 @@ const DepartmentForm: FC<DepartmentFormPops> = ({ initialData }) => {
     setLoading(true);
     try {
       if (initialData) {
-        await axios.patch(`/api/departments/${params.departmentId}`, data);
+        await axios.patch(`/api/departments/${params?.departmentId}`, data);
       } else {
         await axios.post(`/api/departments`, data);
       }
@@ -99,7 +99,7 @@ const DepartmentForm: FC<DepartmentFormPops> = ({ initialData }) => {
   const onDelete = async () => {
     setLoading(true);
     try {
-      await axios.delete(`/api/departments/${params.departmentId}`);
+      await axios.delete(`/api/departments/${params?.departmentId}`);
       router.refresh();
       router.push(`/departments`);
     } catch (error) {
