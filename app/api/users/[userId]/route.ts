@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+
 import prismadb from "@/lib/prismadb";
 
 export async function GET(
@@ -22,6 +24,14 @@ export async function GET(
       },
     });
 
+    if (!user) {
+      return new NextResponse("Use not found!!", {
+        status: 400,
+      });
+    }
+
+    user.password = "";
+
     return NextResponse.json(user);
   } catch (error) {
     console.log("[USER_GET]", error);
@@ -40,6 +50,7 @@ export async function PATCH(
     const {
       name,
       email,
+      password,
       superUser,
       userAccess,
       departmentAccess,
@@ -50,16 +61,22 @@ export async function PATCH(
     //   return new NextResponse("Unauthenticated", { status: 401 });
     // }
 
-    if (
-      !name ||
-      !email ||
-      !superUser ||
-      !userAccess ||
-      !departmentAccess ||
-      !departmentName
-    ) {
+    if (!name || !email || !password || !departmentName) {
       return new NextResponse("Some input data is missing!!", { status: 400 });
     }
+
+    if (
+      superUser === null ||
+      !userAccess === null ||
+      !departmentAccess === null
+    ) {
+      return new NextResponse("Access input data is missing!!", {
+        status: 400,
+      });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const user = await prismadb.user.updateMany({
       where: {
@@ -68,6 +85,7 @@ export async function PATCH(
       data: {
         name,
         email,
+        password: hashedPassword,
         superUser,
         userAccess,
         departmentAccess,

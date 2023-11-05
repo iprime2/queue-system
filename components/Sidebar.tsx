@@ -21,37 +21,37 @@ const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 const routes = [
   {
     label: "Dashboard",
-    href: "/dashboard",
+    href: "/admin/dashboard",
     icon: LayoutDashboardIcon,
     color: "text-sky-500",
   },
   {
     label: "Token",
-    href: "/token",
+    href: "/admin/token",
     icon: TicketIcon,
     color: "text-green-700",
   },
   {
     label: "Users",
-    href: "/users",
+    href: "/admin/users",
     icon: User2,
     color: "text-pink-700",
   },
   {
     label: "Departments",
-    href: "/departments",
+    href: "/admin/departments",
     icon: School2Icon,
     color: "text-orange-700",
   },
   {
     label: "Counter",
-    href: "/counter",
+    href: "/admin/counter",
     icon: MonitorIcon,
     color: "text-orange-700",
   },
   {
     label: "Settings",
-    href: "/settings",
+    href: "/admin/settings",
     icon: SettingsIcon,
     color: "text-teal-500",
   },

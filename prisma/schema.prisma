@@ -20,6 +20,7 @@ model User {
   id               String     @id @default(uuid())
   name             String
   email            String     @unique
+  password         String?
   // imageUrl         String
   superUser        Boolean
   userAccess       Boolean
@@ -40,5 +41,26 @@ model Department {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  user User[] @relation("UserToDepartment")
+  user    User[]    @relation("UserToDepartment")
+  token   Token[]   @relation("DepartmentToToken")
+  display Counter[] @relation("DisplayToDepartment")
+}
+
+model Token {
+  id             String     @id @default(uuid())
+  tokenNo        Int
+  displayName    String
+  departmentName String
+  department     Department @relation("DepartmentToToken", fields: [departmentName], references: [departmentName])
+  closeddAt      DateTime
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Counter {
+  id             String     @id @default(uuid())
+  departmentName String
+  department     Department @relation("DisplayToDepartment", fields: [departmentName], references: [departmentName])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }
