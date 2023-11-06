@@ -62,6 +62,7 @@ export const authOptions: AuthOptions = {
     async session(res) {
       const { token, session } = res;
       if (token) {
+        session.user.accessToken = token.accessToken;
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
@@ -74,26 +75,31 @@ export const authOptions: AuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          email: token.email as string,
-        },
-      });
+      // const dbUser = await prisma.user.findFirst({
+      //   where: {
+      //     email: token.email as string,
+      //   },
+      // });
 
-      if (!dbUser) {
-        token.id = user!.id;
-        return token;
-      }
+      // if (!dbUser) {
+      //   token.id = user!.id;
+      //   return token;
+      // }
 
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        departmentName: dbUser.departmentName,
-        superUser: dbUser.superUser,
-        userAccess: dbUser.userAccess,
-        departmentAccess: dbUser.departmentAccess,
-      };
+      // console.log("nextAuth");
+      // console.log(token);
+
+      // return {
+      //   id: dbUser.id,
+      //   name: dbUser.name,
+      //   email: dbUser.email,
+      //   departmentName: dbUser.departmentName,
+      //   superUser: dbUser.superUser,
+      //   userAccess: dbUser.userAccess,
+      //   departmentAccess: dbUser.departmentAccess,
+      // };
+
+      return token;
     },
   },
 };

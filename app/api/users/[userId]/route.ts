@@ -2,17 +2,21 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
 import prismadb from "@/lib/prismadb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export async function GET(
   req: Request,
   { params }: { params: { userId: string } }
 ) {
   try {
-    const { userId } = params;
+    const session = await getServerSession(authOptions);
 
-    // if (!userId) {
-    //   return new NextResponse("Unauthenticated", { status: 401 });
-    // }
+    if (!session) {
+      return new NextResponse("Unauthenticated!!", { status: 401 });
+    }
+
+    const { userId } = params;
 
     if (!userId) {
       return new NextResponse("User Id is required", { status: 400 });
@@ -45,7 +49,6 @@ export async function PATCH(
 ) {
   try {
     const { userId } = params;
-    const body = await req.json();
 
     const {
       name,
@@ -55,11 +58,13 @@ export async function PATCH(
       userAccess,
       departmentAccess,
       departmentName,
-    } = body;
+    } = await req.json();
 
-    // if (!userId) {
-    //   return new NextResponse("Unauthenticated", { status: 401 });
-    // }
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse("Unauthenticated!!", { status: 401 });
+    }
 
     if (!name || !email || !password || !departmentName) {
       return new NextResponse("Some input data is missing!!", { status: 400 });
@@ -106,6 +111,12 @@ export async function DELETE(
 ) {
   try {
     const { userId } = params;
+
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse("UnAuthorized!!", { status: 401 });
+    }
 
     if (!userId) {
       return new NextResponse("User Id is required", { status: 400 });
