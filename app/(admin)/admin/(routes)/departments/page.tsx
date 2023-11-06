@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { FC } from "react";
 
 import Heading from "@/components/Heading";
 import MainBody from "@/components/MainBody";
@@ -8,9 +7,14 @@ import { Separator } from "@/components/ui/separator";
 import { getDepartments } from "@/actions/getDepartments";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./components/columns";
+import Error401 from "@/components/401";
 
 const DepartmentsPage = async () => {
   const departments = await getDepartments();
+
+  if (!departments) {
+    return <Error401 />;
+  }
 
   return (
     <MainBody>
