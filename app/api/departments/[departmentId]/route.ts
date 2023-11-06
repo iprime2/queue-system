@@ -1,16 +1,20 @@
 import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export async function GET(
   req: Request,
   { params }: { params: { departmentId: string } }
 ) {
   try {
-    const { departmentId } = params;
+    const session = await getServerSession(authOptions);
 
-    // if (!userId) {
-    //   return new NextResponse("Unauthenticated", { status: 401 });
-    // }
+    if (!session) {
+      return new NextResponse("Unauthenticated!!", { status: 401 });
+    }
+
+    const { departmentId } = params;
 
     if (!departmentId) {
       return new NextResponse("Department Id is required", { status: 400 });
@@ -34,14 +38,16 @@ export async function PATCH(
   { params }: { params: { departmentId: string } }
 ) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse("Unauthenticated!!", { status: 401 });
+    }
+
     const { departmentId } = params;
     const body = await req.json();
 
     const { departmentName, schoolName, code } = body;
-
-    // if (!userId) {
-    //   return new NextResponse("Unauthenticated", { status: 401 });
-    // }
 
     if (!departmentName) {
       return new NextResponse("Department Name required", {

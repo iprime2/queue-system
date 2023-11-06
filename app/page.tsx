@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import {
   Form,
@@ -37,6 +37,7 @@ type LoginFormValues = z.infer<typeof formSchema>;
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
@@ -45,6 +46,11 @@ export default function Home() {
       password: "",
     },
   });
+
+  if (session) {
+    router.push("/admin/dashboard");
+    return null;
+  }
 
   const onSubmit = async (data: LoginFormValues) => {
     setLoading(true);

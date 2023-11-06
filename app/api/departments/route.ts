@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export async function GET(req: Request) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse("Unauthenticated!!", { status: 401 });
+    }
     const department = await prismadb.department.findMany({});
 
     return NextResponse.json(department);
@@ -14,9 +21,13 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const session = await getServerSession(authOptions);
 
-    const { departmentName, schoolName, code } = body;
+    if (!session) {
+      return new NextResponse("Unauthenticated!!", { status: 401 });
+    }
+
+    const { departmentName, schoolName, code } = await req.json();
 
     if (!departmentName || !schoolName || !code) {
       return new NextResponse("Some input data is missing!!", { status: 400 });
