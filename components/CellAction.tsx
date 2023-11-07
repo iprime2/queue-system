@@ -19,9 +19,10 @@ import { useParams, useRouter } from "next/navigation";
 import AlertModal from "@/components/modals/AlertModal";
 import { DepartmentsColumnTypes } from "@/app/(admin)/admin/(routes)/departments/components/columns";
 import { UsersColumnTypes } from "@/app/(admin)/admin/(routes)/users/components/columns";
+import { CountersColumnTypes } from "@/app/(admin)/admin/(routes)/counters/components/columns";
 
 interface CellActionProps {
-  data: DepartmentsColumnTypes | UsersColumnTypes;
+  data: DepartmentsColumnTypes | UsersColumnTypes | CountersColumnTypes;
   type: string;
 }
 
