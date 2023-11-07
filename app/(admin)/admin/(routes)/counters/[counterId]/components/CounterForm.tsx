@@ -49,8 +49,8 @@ type CounterFormValues = z.infer<typeof formSchema>;
 
 interface CounterFormPops {
   initialData: CountersColumnTypes | any | null;
-  departmentsData: Department[];
-  usersData: User[];
+  departmentsData: { id: string; departmentName: string }[];
+  usersData: { id: string; name: string }[];
 }
 
 const CounterForm: FC<CounterFormPops> = ({
