@@ -18,7 +18,7 @@ datasource db {
 
 model User {
   id               String     @id @default(uuid())
-  name             String
+  name             String     @unique
   email            String     @unique
   password         String?
   // imageUrl         String
@@ -30,7 +30,8 @@ model User {
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 
-  @@index([departmentName])
+  counter Counter[] @relation("CounterToUser")
+
 }
 
 model Department {
@@ -49,18 +50,31 @@ model Department {
 model Token {
   id             String     @id @default(uuid())
   tokenNo        Int
-  displayName    String
-  departmentName String
-  department     Department @relation("DepartmentToToken", fields: [departmentName], references: [departmentName])
+  CounterId      String
+  departmentId String
+  department     Department @relation("DepartmentToToken", fields: [departmentId], references: [id])
   closeddAt      DateTime
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  // counter Counter[] @relation("CounterToToken")
+
+  @@index([departmentId])
 }
 
 model Counter {
   id             String     @id @default(uuid())
-  departmentName String
-  department     Department @relation("DisplayToDepartment", fields: [departmentName], references: [departmentName])
+  name           String
+  online         Boolean    @default(false)
+  userId         String
+  user           User @relation("CounterToUser", fields: [userId], references: [id]) 
+  departmentId   String
+  department     Department @relation("DisplayToDepartment", fields: [departmentId], references: [id])
+  // tokenId        String
+  // token          Token      @relation("CounterToToken", fields: [tokenId], references: [id])
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([departmentId])
 }
