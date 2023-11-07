@@ -1,8 +1,6 @@
 import { FC } from "react";
 
 import CounterForm from "./components/CounterForm";
-import { getDepartmentsName } from "@/actions/getDepartmentsName";
-import { getUsersName } from "@/actions/getUsersName";
 import { getCounter } from "@/actions/getCounter";
 import Error401 from "@/components/401";
 import { getUsers } from "@/actions/getUsers";
