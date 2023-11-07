@@ -17,8 +17,8 @@ export type CountersColumnTypes = {
   departmentId: string;
   createdAt: Date;
   updatedAt: Date;
-  user: User;
-  department: Department;
+  user: { id: string; name: string };
+  department: { id: string; departmentName: string; schoolName: string; code: string };
 };
 
 export const columns: ColumnDef<CountersColumnTypes>[] = [
