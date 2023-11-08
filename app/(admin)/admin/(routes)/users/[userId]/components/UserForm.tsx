@@ -24,7 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UsersColumnTypes } from "../../components/columns";
+import { UsersColumnTypes, UsersSomeTypes } from "../../components/columns";
 import AlertModal from "@/components/modals/AlertModal";
 import ImageUpload from "@/components/ui/ImageUpload";
 import { Switch } from "@/components/ui/switch";
@@ -36,6 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { DepartmentSomeTypes } from "../../../departments/components/columns";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -55,10 +56,10 @@ type UserFormValues = z.infer<typeof formSchema>;
 
 interface UserFormPops {
   initialData: UsersColumnTypes | any | null;
-  departmentsNameData: string[];
+  departmentsData: DepartmentSomeTypes[];
 }
 
-const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
+const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -249,10 +250,10 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsNameData }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {departmentsNameData ? (
-                        departmentsNameData.map((department) => (
-                          <SelectItem value={department} key={department}>
-                            {department}
+                      {departmentsData ? (
+                        departmentsData.map((department) => (
+                          <SelectItem value={department.id} key={department.id}>
+                            {department.departmentName}
                           </SelectItem>
                         ))
                       ) : (

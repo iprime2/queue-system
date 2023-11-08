@@ -5,9 +5,7 @@ import { format } from "date-fns";
 
 import CellAction from "@/components/CellAction";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type DepartmentsColumnTypes = {
+type DepartmentAllTypes = {
   id: string;
   departmentName: string;
   schoolName: string;
@@ -15,6 +13,14 @@ export type DepartmentsColumnTypes = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type DepartmentSomeTypes = {
+  id: string;
+  departmentName: string;
+  createdAt: Date;
+};
+
+export type DepartmentsColumnTypes = DepartmentAllTypes | DepartmentSomeTypes;
 
 export const columns: ColumnDef<DepartmentsColumnTypes>[] = [
   {

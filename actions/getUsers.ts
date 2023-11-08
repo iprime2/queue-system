@@ -3,24 +3,29 @@ import { getServerSession } from "next-auth";
 import prismadb from "@/lib/prismadb";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export const getUsers = async (selectFlag: boolean) => {
+export const getUsers = async (selectFlag?: boolean) => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return null;
   }
 
+  let users;
+
   if (selectFlag) {
-    const users = await prismadb.user.findMany({
+    users = await prismadb.user.findMany({
       select: {
         id: true,
         name: true,
+        superUser: true,
+        userAccess: true,
+        departmentAccess: true,
+        createdAt: true,
       },
     });
-
-    return users;
+  } else {
+    users = await prismadb.user.findMany({});
   }
-  const users = await prismadb.user.findMany({});
 
   return users;
 };

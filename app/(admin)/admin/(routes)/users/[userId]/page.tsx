@@ -23,9 +23,7 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
     return <Error401 />;
   }
 
-  console.log(usersData);
-
-  return <UserForm initialData={usersData} departmentsNameData={departments} />;
+  return <UserForm initialData={usersData} departmentsData={departments} />;
 };
 
 export default UserPage;

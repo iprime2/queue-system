@@ -6,9 +6,7 @@ import { format } from "date-fns";
 import CellAction from "@/components/CellAction";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type UsersColumnTypes = {
+type UsersAllTypes = {
   id: string;
   name: string;
   email: string;
@@ -19,6 +17,17 @@ export type UsersColumnTypes = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type UsersSomeTypes = {
+  id: string;
+  name: string;
+  superUser: boolean;
+  userAccess: boolean;
+  departmentAccess: boolean;
+  createdAt: Date;
+};
+
+export type UsersColumnTypes = UsersAllTypes | UsersSomeTypes;
 
 export const columns: ColumnDef<UsersColumnTypes>[] = [
   {
