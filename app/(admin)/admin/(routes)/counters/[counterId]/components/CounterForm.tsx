@@ -24,7 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UsersColumnTypes, UsersSomeTypes } from "../../components/columns";
+import { CountersColumnTypes } from "../../components/columns";
 import AlertModal from "@/components/modals/AlertModal";
 import ImageUpload from "@/components/ui/ImageUpload";
 import { Switch } from "@/components/ui/switch";
@@ -36,65 +36,59 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
-import { DepartmentSomeTypes } from "../../../departments/components/columns";
+import { Counter, Department, User } from "@prisma/client";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  email: z
-    .string()
-    .min(1, { message: "This field has to be filled." })
-    .email("This is not a valid email."),
-  password: z.string().min(4),
-  // imgUrl: z.string().min(1),
-  superUser: z.boolean(),
-  userAccess: z.boolean(),
-  departmentAccess: z.boolean(),
-  departmentName: z.string().min(1),
+  online: z.boolean().default(false).optional(),
+  userId: z.string().min(1),
+  departmentId: z.string().min(1),
 });
 
-type UserFormValues = z.infer<typeof formSchema>;
+type CounterFormValues = z.infer<typeof formSchema>;
 
-interface UserFormPops {
-  initialData: UsersColumnTypes | any | null;
-  departmentsData: DepartmentSomeTypes[];
+interface CounterFormPops {
+  initialData: CountersColumnTypes | any | null;
+  departmentsData: { id: string; departmentName: string }[];
+  usersData: { id: string; name: string }[];
 }
 
-const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
+const CounterForm: FC<CounterFormPops> = ({
+  initialData,
+  departmentsData,
+  usersData,
+}) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit User" : "Create User";
-  const description = initialData ? "Edit a User" : "Add new User";
-  const toastMessage = initialData ? "User updated!!" : "User Created!!";
+  const title = initialData ? "Edit Counter" : "Create Counter";
+  const description = initialData ? "Edit a Counter" : "Add new Counter";
+  const toastMessage = initialData ? "Counter updated!!" : "Counter Created!!";
   const action = initialData ? "Save changes" : "Create";
 
   const params = useParams();
   const router = useRouter();
 
-  const form = useForm<UserFormValues>({
+  const form = useForm<CounterFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
-      email: "",
-      password: "",
-      // imgUrl: "",
-      superUser: false,
-      userAccess: false,
-      departmentAccess: false,
-      departmentName: "",
+      online: true,
+      userId: "",
+      departmentId: "",
     },
   });
 
-  const onSubmit = async (data: UserFormValues) => {
+  const onSubmit = async (data: CounterFormValues) => {
     setLoading(true);
     try {
       if (initialData) {
-        await axios.patch(`/api/users/${params?.userId}`, data);
+        await axios.patch(`/api/counters/${params?.counterId}`, data);
       } else {
-        await axios.post(`/api/users`, data);
+        await axios.post(`/api/counters`, data);
       }
       router.refresh();
-      router.push("/admin/users");
+      router.push("/admin/counters");
       toast({
         description: toastMessage,
         variant: "success",
@@ -108,12 +102,13 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
           variant: "destructive",
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         });
+      } else {
+        toast({
+          description: "Something went wrong!!",
+          variant: "destructive",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
       }
-      // toast({
-      //   description: "Something went wrong!!",
-      //   variant: "destructive",
-      //   action: <ToastAction altText="Try again">Try again</ToastAction>,
-      // });
     } finally {
       setLoading(false);
     }
@@ -122,9 +117,9 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
   const onDelete = async () => {
     setLoading(true);
     try {
-      await axios.delete(`/api/users/${params?.userId}`);
+      await axios.delete(`/api/counters/${params?.counterId}`);
       router.refresh();
-      router.push(`/admin/users`);
+      router.push(`/admin/counters`);
     } catch (error) {
       toast({
         description: "Something went wrong!!",
@@ -163,25 +158,7 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          {/* <FormField
-            control={form.control}
-            name="imageUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Background image</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    disabled={loading}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 space-y-2 lg:grid-cols-3 lg:gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -191,7 +168,7 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Name of user"
+                      placeholder="Name of Counter"
                       {...field}
                     />
                   </FormControl>
@@ -201,42 +178,48 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
             />
             <FormField
               control={form.control}
-              name="email"
+              name="userId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Email of user"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormLabel>Users Name</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select the user"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {usersData ? (
+                        usersData.map((user) => (
+                          <SelectItem value={user.id} key={user.id}>
+                            {user.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="NAN">No users available!</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    You can manage/create users here{" "}
+                    <Link href="/admin/users">
+                      <span className="text-fuchsia-600">Users settings.</span>
+                    </Link>
+                    .
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="departmentName"
+              name="departmentId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Departments Name</FormLabel>
@@ -246,7 +229,10 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select the department" />
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select the department"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -265,7 +251,7 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
                   </Select>
                   <FormDescription>
                     You can manage/create departments here{" "}
-                    <Link href="/departments">
+                    <Link href="/admin/departments">
                       <span className="text-fuchsia-600">
                         Department settings.
                       </span>
@@ -278,60 +264,13 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
             />
             <FormField
               control={form.control}
-              name="superUser"
+              name="online"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base">Super Access</FormLabel>
+                    <FormLabel className="text-base">Online Status</FormLabel>
                     <FormDescription>
-                      Do you want to give super access to user.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled={loading}
-                      aria-readonly
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="userAccess"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">User Access</FormLabel>
-                    <FormDescription>
-                      Do you want to give user modification access to user.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled={loading}
-                      aria-readonly
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="departmentAccess"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Department Access
-                    </FormLabel>
-                    <FormDescription>
-                      Do you want to give Department modification access to
-                      user.
+                      Is counter online or active to resolve token?
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -355,4 +294,4 @@ const UserForm: FC<UserFormPops> = ({ initialData, departmentsData }) => {
   );
 };
 
-export default UserForm;
+export default CounterForm;
