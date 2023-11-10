@@ -20,9 +20,14 @@ import AlertModal from "@/components/modals/AlertModal";
 import { DepartmentsColumnTypes } from "@/app/(admin)/admin/(routes)/departments/components/columns";
 import { UsersColumnTypes } from "@/app/(admin)/admin/(routes)/users/components/columns";
 import { CountersColumnTypes } from "@/app/(admin)/admin/(routes)/counters/components/columns";
+import { TokensColumnTypes } from "@/app/(admin)/admin/(routes)/tokens/components/columns";
 
 interface CellActionProps {
-  data: DepartmentsColumnTypes | UsersColumnTypes | CountersColumnTypes;
+  data:
+    | DepartmentsColumnTypes
+    | UsersColumnTypes
+    | CountersColumnTypes
+    | TokensColumnTypes;
   type: string;
 }
 
