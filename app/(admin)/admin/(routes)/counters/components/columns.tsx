@@ -7,9 +7,7 @@ import CellAction from "@/components/CellAction";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { Department, User } from "@prisma/client";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type CountersColumnTypes = {
+export type CountersAllTypes = {
   id: string;
   name: string;
   online: boolean;
@@ -25,6 +23,19 @@ export type CountersColumnTypes = {
     code: string;
   };
 };
+export type CountersSomeTypes = {
+  id: string;
+  name: string;
+  online: boolean;
+  createdAt: Date;
+  user: { id: string; name: string };
+  department: {
+    id: string;
+    departmentName: string;
+  };
+};
+
+export type CountersColumnTypes = CountersAllTypes | CountersSomeTypes;
 
 export const columns: ColumnDef<CountersColumnTypes>[] = [
   {
@@ -36,7 +47,7 @@ export const columns: ColumnDef<CountersColumnTypes>[] = [
     header: "Department",
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {row.original.department.departmentName}
+        {row.original?.department.departmentName}
       </div>
     ),
   },
@@ -45,7 +56,7 @@ export const columns: ColumnDef<CountersColumnTypes>[] = [
     header: "User",
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {row.original.user.name}
+        {row.original.user.name || "N/A"}
       </div>
     ),
   },
