@@ -18,7 +18,20 @@ export const getCounters = async (selectFlag?: boolean) => {
         select: {
           id: true,
           name: true,
+          online: true,
           createdAt: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              departmentName: true,
+            },
+          },
         },
       });
     } else {
