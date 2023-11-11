@@ -11,44 +11,59 @@ export const getTokens = async (selectFlag?: boolean) => {
       return null;
     }
 
+    let tokens;
+
     if (selectFlag) {
-      const tokens = await prismadb.token.findMany({
+      tokens = await prismadb.token.findMany({
         select: {
           id: true,
           title: true,
           createdAt: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          counter: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              departmentName: true,
+            },
+          },
         },
       });
-
-      return tokens;
+    } else {
+      tokens = await prismadb.token.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          counter: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              departmentName: true,
+            },
+          },
+        },
+      });
     }
-
-    const token = await prismadb.token.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        counter: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        department: {
-          select: {
-            id: true,
-            departmentName: true,
-            schoolName: true,
-            code: true,
-          },
-        },
-      },
-    });
-
-    return token;
+    return tokens;
   } catch (error) {
     console.log(error);
   }
