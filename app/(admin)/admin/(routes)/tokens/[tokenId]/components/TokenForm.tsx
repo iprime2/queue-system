@@ -41,7 +41,7 @@ const statusData = ["created", "progress", "completed"];
 const formSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  tokenNo: z.string().min(1),
+  tokenNo: z.coerce.number().min(1),
   status: z.string().min(1),
   isCompleted: z.boolean().default(false).optional(),
   userId: z.string().min(1),
@@ -57,9 +57,14 @@ interface TokenFormPops {
     id: string;
     name: string;
   }[];
+  departmentsData: { id: string; departmentName: string; createdAt: Date }[];
 }
 
-const TokenForm: FC<TokenFormPops> = ({ initialData, countersData }) => {
+const TokenForm: FC<TokenFormPops> = ({
+  initialData,
+  countersData,
+  departmentsData,
+}) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -209,6 +214,7 @@ const TokenForm: FC<TokenFormPops> = ({ initialData, countersData }) => {
                     <Input
                       disabled={loading}
                       placeholder="Token Number"
+                      type="number"
                       {...field}
                     />
                   </FormControl>
@@ -216,7 +222,7 @@ const TokenForm: FC<TokenFormPops> = ({ initialData, countersData }) => {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
@@ -252,7 +258,7 @@ const TokenForm: FC<TokenFormPops> = ({ initialData, countersData }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="counterId"
@@ -288,6 +294,50 @@ const TokenForm: FC<TokenFormPops> = ({ initialData, countersData }) => {
                   <FormDescription>
                     You can manage/create counters here{" "}
                     <Link href="/admin/counters">
+                      <span className="text-fuchsia-600">
+                        Counters settings.
+                      </span>
+                    </Link>
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="counterId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Department</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select the department"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {departmentsData ? (
+                        departmentsData.map((department) => (
+                          <SelectItem value={department.id} key={department.id}>
+                            {department.departmentName}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="NAN">
+                          No departments available!
+                        </SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    You can manage/create departments here{" "}
+                    <Link href="/admin/departments">
                       <span className="text-fuchsia-600">
                         Counters settings.
                       </span>

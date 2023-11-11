@@ -15,7 +15,7 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
   const tokenId = params.tokenId;
 
   const token = await getToken(tokenId);
-  // const departments = await getDepartments(true);
+  const departments = await getDepartments(true);
   // const users = await getUsers(true);
   const counters = await getCounters(true);
 
@@ -27,9 +27,9 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
     return <Error401 />;
   }
 
-  // if (!departments) {
-  //   return <Error401 />;
-  // }
+  if (!departments) {
+    return <Error401 />;
+  }
 
   // if (!users) {
   //   return <Error401 />;
@@ -38,7 +38,7 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
   return (
     <TokenForm
       initialData={token}
-      // departmentsData={departments}
+      departmentsData={departments}
       countersData={counters}
       // usersData={users}
     />

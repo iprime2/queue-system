@@ -6,9 +6,7 @@ import { format } from "date-fns";
 import CellAction from "@/components/CellAction";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type TokensColumnTypes = {
+export type TokensAllColumnTypes = {
   id: string;
   title: string;
   description: string;
@@ -21,24 +19,45 @@ export type TokensColumnTypes = {
   closedAt: Date;
   createdAt: Date;
   updatedAt: Date;
-  user: { id: string; name: string };
+  user: { id: string; name: string } | null;
   department: {
     id: string;
     departmentName: string;
     schoolName: string;
     code: string;
-  };
+  } | null;
   counter: {
     id: string;
     name: string;
-  };
+  } | null;
 };
 
+export type TokensSomeColumnTypes = {
+  id: string;
+  title: string;
+  isCompleted: boolean;
+  createdAt: Date;
+  department: {
+    id: string;
+    departmentName: string;
+  } | null;
+  counter: {
+    id: string;
+    name: string;
+  } | null;
+  user: {
+    id: string;
+    name: string;
+  } | null;
+};
+
+export type TokensColumnTypes =
+  | TokensSomeColumnTypes
+  | TokensAllColumnTypes
+  // any fix
+  | any;
+
 export const columns: ColumnDef<TokensColumnTypes>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
   {
     accessorKey: "title",
     header: "Title",
@@ -55,8 +74,8 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
     accessorKey: "departmentName",
     header: "Department",
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        {row.original.department.departmentName}
+      <div className="flex items-center ml-5">
+        {row.original?.department?.departmentName || "NAN"}
       </div>
     ),
   },
@@ -64,8 +83,8 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
     accessorKey: "userName",
     header: "User",
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        {row.original.user.name}
+      <div className="flex items-center">
+        {row.original?.user?.name || "NAN"}
       </div>
     ),
   },
@@ -73,8 +92,8 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
     accessorKey: "counterName",
     header: "Counter",
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        {row.original.counter.name}
+      <div className="flex mr-4  items-center ml-4">
+        {row.original?.counter?.name || "NAN"}
       </div>
     ),
   },
@@ -82,7 +101,7 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
     accessorKey: "isCompleted",
     header: "Completed",
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex mr-4 items-center ml-5">
         {row.original.isCompleted ? (
           <CheckCircle2Icon className="text-green-500" />
         ) : (
@@ -101,6 +120,6 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
   {
     header: "Actions",
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} type={"counters"} />,
+    cell: ({ row }) => <CellAction data={row.original} type={"tokens"} />,
   },
 ];

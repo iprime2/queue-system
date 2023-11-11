@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getCounters } from "@/actions/getCounters";
+import { getTokens } from "@/actions/getTokens";
 import Heading from "@/components/Heading";
 import MainBody from "@/components/MainBody";
 import { Button } from "@/components/ui/button";
@@ -9,11 +9,10 @@ import { columns } from "./components/columns";
 import { DataTable } from "@/components/DataTable";
 import Error401 from "@/components/401";
 
-const CountersPage = async () => {
-  "use sever";
-  const counters = await getCounters();
+const TokensPage = async () => {
+  const tokens = await getTokens();
 
-  if (!counters) {
+  if (!tokens) {
     return <Error401 />;
   }
 
@@ -21,20 +20,20 @@ const CountersPage = async () => {
     <MainBody>
       <div className="w-full flex flex-col gap-3">
         <div className="w-full flex flex-col space-y-2">
-          <Heading title="Counters" description="Manage counters" />
+          <Heading title="Tokens" description="Manage tokens" />
           <div className="w-full flex">
-            <Link href="/admin/counters/new">
+            <Link href="/admin/tokens/new">
               <Button className="rounded-md">Create</Button>
             </Link>
           </div>
         </div>
         <Separator />
         <div className="w-full items-center">
-          <DataTable columns={columns} data={counters} searchKey="name" />
+          <DataTable columns={columns} data={tokens} searchKey="title" />
         </div>
       </div>
     </MainBody>
   );
 };
 
-export default CountersPage;
+export default TokensPage;
