@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import { TokensColumnTypes } from "../../components/columns";
+import { useQueue } from "@/hooks/useQueue";
 
 const statusData = ["created", "progress", "completed"];
 
@@ -44,9 +45,9 @@ const formSchema = z.object({
   tokenNo: z.coerce.number().min(1),
   status: z.string().min(1),
   isCompleted: z.boolean().default(false).optional(),
-  userId: z.string().min(1),
+  // userId: z.string().min(1),
   departmentId: z.string().min(1),
-  counterId: z.string().min(1),
+  // counterId: z.string().min(1),
 });
 
 type TokenFormValues = z.infer<typeof formSchema>;
@@ -76,6 +77,10 @@ const TokenForm: FC<TokenFormPops> = ({
   const params = useParams();
   const router = useRouter();
 
+  const { queue, add } = useQueue();
+
+  console.log(queue);
+
   const form = useForm<TokenFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
@@ -84,22 +89,24 @@ const TokenForm: FC<TokenFormPops> = ({
       tokenNo: "",
       status: "created",
       isCompleted: false,
-      counterId: "",
+      departmentId: "",
     },
   });
 
   const onSubmit = async (data: TokenFormValues) => {
     setLoading(true);
     try {
-      console.log(data);
-
+      let token;
       if (initialData) {
-        await axios.patch(`/api/tokens/${params?.tokenId}`, data);
+        token = await axios.patch(`/api/tokens/${params?.tokenId}`, data);
       } else {
-        await axios.post(`/api/tokens`, data);
+        token = await axios.post(`/api/tokens`, data);
       }
-      router.refresh();
-      router.push("/admin/tokens");
+      add(token.data);
+      console.log(queue);
+
+      // router.refresh();
+      // router.push("/admin/tokens");
       toast({
         description: toastMessage,
         variant: "success",
@@ -222,7 +229,7 @@ const TokenForm: FC<TokenFormPops> = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
+            <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
@@ -258,8 +265,8 @@ const TokenForm: FC<TokenFormPops> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-            <FormField
+            />
+            {/* <FormField
               control={form.control}
               name="counterId"
               render={({ field }) => (
@@ -302,10 +309,10 @@ const TokenForm: FC<TokenFormPops> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
-              name="counterId"
+              name="departmentId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Department</FormLabel>

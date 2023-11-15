@@ -1,3 +1,4 @@
+import { Department } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
@@ -29,27 +30,26 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthenticated!!", { status: 401 });
     }
 
-    const { title, description, tokenNo, status, isCompleted, counterId } =
+    const { title, description, tokenNo, status, isCompleted, departmentId } =
       await req.json();
 
-    if (
-      !title ||
-      !description ||
-      !tokenNo ||
-      !status ||
-      !isCompleted ||
-      !counterId
-    ) {
+    if (!title || !description || !tokenNo || !status || !departmentId) {
       return new NextResponse("Some input data is missing!!", { status: 400 });
     }
 
-    const counter = await prismadb.counter.findUnique({
+    if (isCompleted === null || isCompleted === undefined) {
+      return new NextResponse("Complete status data is missing!!", {
+        status: 400,
+      });
+    }
+
+    const department = await prismadb.department.findUnique({
       where: {
-        id: counterId,
+        id: departmentId,
       },
     });
 
-    if (!counter) {
+    if (!department) {
       return new NextResponse("Department does not exist!!", {
         status: 400,
       });
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
         tokenNo,
         status,
         isCompleted,
-        counterId,
+        departmentId,
       },
     });
 
