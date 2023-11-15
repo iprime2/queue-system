@@ -105,8 +105,8 @@ const TokenForm: FC<TokenFormPops> = ({
       add(token.data);
       console.log(queue);
 
-      // router.refresh();
-      // router.push("/admin/tokens");
+      router.refresh();
+      router.push("/admin/tokens");
       toast({
         description: toastMessage,
         variant: "success",
