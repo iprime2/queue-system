@@ -5,6 +5,7 @@ import { format } from "date-fns";
 
 import CellAction from "@/components/CellAction";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export type TokensAllColumnTypes = {
   id: string;
@@ -69,12 +70,24 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => (
+      <div
+        className={cn(
+          "flex items-center justify-center bg-slate-500 rounded-sm px-1 py-2 text-white text-sm",
+          row.original?.status === "pending" && "bg-red-600",
+          row.original?.status === "progress" && "bg-amber-600",
+          row.original?.status === "success" && "bg-emerald-400"
+        )}
+      >
+        {row.original?.status}
+      </div>
+    ),
   },
   {
     accessorKey: "departmentName",
     header: "Department",
     cell: ({ row }) => (
-      <div className="flex items-center ml-5">
+      <div className="flex items-start">
         {row.original?.department?.departmentName || "NAN"}
       </div>
     ),
@@ -92,16 +105,14 @@ export const columns: ColumnDef<TokensColumnTypes>[] = [
     accessorKey: "counterName",
     header: "Counter",
     cell: ({ row }) => (
-      <div className="flex mr-4  items-center ml-4">
-        {row.original?.counter?.name || "NAN"}
-      </div>
+      <div className="flex">{row.original?.counter?.name || "NAN"}</div>
     ),
   },
   {
     accessorKey: "isCompleted",
     header: "Completed",
     cell: ({ row }) => (
-      <div className="flex mr-4 items-center ml-5">
+      <div className="flex items-center justify-center mr-6">
         {row.original.isCompleted ? (
           <CheckCircle2Icon className="text-green-500" />
         ) : (
