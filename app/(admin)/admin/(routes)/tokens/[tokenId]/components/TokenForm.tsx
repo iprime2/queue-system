@@ -37,17 +37,17 @@ import Link from "next/link";
 import { TokensColumnTypes } from "../../components/columns";
 import { useQueue } from "@/hooks/useQueue";
 
-const statusData = ["created", "progress", "completed"];
+const statusData = ["pending", "progress", "completed"];
 
 const formSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   tokenNo: z.coerce.number().min(1),
   status: z.string().min(1),
-  isCompleted: z.boolean().default(false).optional(),
-  // userId: z.string().min(1),
   departmentId: z.string().min(1),
-  // counterId: z.string().min(1),
+  counterId: z.string().min(1),
+  userId: z.string().min(1),
+  isCompleted: z.boolean().default(false).optional(),
 });
 
 type TokenFormValues = z.infer<typeof formSchema>;
@@ -59,12 +59,16 @@ interface TokenFormPops {
     name: string;
   }[];
   departmentsData: { id: string; departmentName: string; createdAt: Date }[];
+  usersData: { id: string; name: string; createdAt: Date }[];
+  tokenNo: number;
 }
 
 const TokenForm: FC<TokenFormPops> = ({
   initialData,
   countersData,
   departmentsData,
+  usersData,
+  tokenNo = 0,
 }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -86,10 +90,12 @@ const TokenForm: FC<TokenFormPops> = ({
     defaultValues: initialData || {
       title: "",
       description: "",
-      tokenNo: "",
-      status: "created",
-      isCompleted: false,
+      tokenNo: tokenNo,
+      status: "pending",
       departmentId: "",
+      counterId: "",
+      userId: "",
+      isCompleted: false,
     },
   });
 
@@ -174,7 +180,7 @@ const TokenForm: FC<TokenFormPops> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
+          className="space-y-6 w-full"
         >
           <div className="grid grid-cols-1 space-y-2 lg:grid-cols-3 lg:gap-8">
             <FormField
@@ -219,7 +225,7 @@ const TokenForm: FC<TokenFormPops> = ({
                   <FormLabel>Token No</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading}
+                      disabled={tokenNo ? true : false}
                       placeholder="Token Number"
                       type="number"
                       {...field}
@@ -266,50 +272,7 @@ const TokenForm: FC<TokenFormPops> = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="counterId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Counters</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select the counter"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {countersData ? (
-                        countersData.map((counter) => (
-                          <SelectItem value={counter.id} key={counter.id}>
-                            {counter.name}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="NAN">
-                          No counters available!
-                        </SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    You can manage/create counters here{" "}
-                    <Link href="/admin/counters">
-                      <span className="text-fuchsia-600">
-                        Counters settings.
-                      </span>
-                    </Link>
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+
             <FormField
               control={form.control}
               name="departmentId"
@@ -319,6 +282,7 @@ const TokenForm: FC<TokenFormPops> = ({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={loading}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -356,6 +320,94 @@ const TokenForm: FC<TokenFormPops> = ({
             />
             <FormField
               control={form.control}
+              name="counterId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Counters</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!initialData ? true : loading}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select the counter"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {countersData ? (
+                        countersData.map((counter) => (
+                          <SelectItem value={counter.id} key={counter.id}>
+                            {counter.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="NAN">
+                          No counters available!
+                        </SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    You can manage/create counters here{" "}
+                    <Link href="/admin/counters">
+                      <span className="text-fuchsia-600">
+                        Counters settings.
+                      </span>
+                    </Link>
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="counterId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Users</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!initialData ? true : loading}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select the counter"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {usersData ? (
+                        usersData.map((user) => (
+                          <SelectItem value={user.id} key={user.id}>
+                            {user.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="NAN">No users available!</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    You can manage/create users here{" "}
+                    <Link href="/admin/users">
+                      <span className="text-fuchsia-600">
+                        Counters settings.
+                      </span>
+                    </Link>
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="isCompleted"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
@@ -367,7 +419,7 @@ const TokenForm: FC<TokenFormPops> = ({
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      disabled={loading}
+                      disabled={!initialData ? true : loading}
                       aria-readonly
                     />
                   </FormControl>

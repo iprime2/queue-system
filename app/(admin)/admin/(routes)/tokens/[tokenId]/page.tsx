@@ -6,6 +6,7 @@ import { getUsers } from "@/actions/getUsers";
 import { getDepartments } from "@/actions/getDepartments";
 import { getCounters } from "@/actions/getCounters";
 import { getToken } from "@/actions/getToken";
+import { getTokenNo } from "@/actions/getTokenNo";
 
 interface UserPageProps {
   params: { tokenId: string };
@@ -16,8 +17,9 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
 
   const token = await getToken(tokenId);
   const departments = await getDepartments(true);
-  // const users = await getUsers(true);
+  const users = await getUsers(true);
   const counters = await getCounters(true);
+  const tokenNo = await getTokenNo();
 
   // if (!token) {
   //   return <Error401 />;
@@ -31,16 +33,21 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
     return <Error401 />;
   }
 
-  // if (!users) {
-  //   return <Error401 />;
-  // }
+  if (!users) {
+    return <Error401 />;
+  }
+
+  if (!tokenNo) {
+    return <Error401 />;
+  }
 
   return (
     <TokenForm
       initialData={token}
       departmentsData={departments}
       countersData={counters}
-      // usersData={users}
+      usersData={users}
+      tokenNo={tokenNo}
     />
   );
 };
