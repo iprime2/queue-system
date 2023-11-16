@@ -60,8 +60,8 @@ model Token {
   user           User? @relation("TokenToUser", fields: [userId], references: [id])
   counterId      String?
   counter        Counter? @relation("TokenToCounter", fields: [counterId], references: [id])
-  departmentId   String?
-  department     Department? @relation("DepartmentToToken", fields: [departmentId], references: [id])
+  departmentId   String
+  department     Department @relation("DepartmentToToken", fields: [departmentId], references: [id])
   closedAt       DateTime?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
