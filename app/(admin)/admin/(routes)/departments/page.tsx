@@ -21,7 +21,7 @@ const DepartmentsPage = async () => {
       <div className="w-full flex flex-col gap-3">
         <Heading title="Departments" description="Manage departments" />
         <div className="w-full flex">
-          <Link href="/departments/new">
+          <Link href="/admin/departments/new">
             <Button className="rounded-md">Create</Button>
           </Link>
         </div>

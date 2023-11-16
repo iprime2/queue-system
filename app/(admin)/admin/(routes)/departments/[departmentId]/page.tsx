@@ -13,9 +13,9 @@ const UserPage: FC<DepartmentPageProps> = async ({ params }) => {
 
   const departmentData = await getDepartment(departmentId);
 
-  if (departmentData) {
-    return <Error401 />
-  }
+  // if (departmentData) {
+  //   return <Error401 />
+  // }
 
   return <DepartmentForm initialData={departmentData} />;
 };
