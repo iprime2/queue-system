@@ -26,7 +26,7 @@ const routes = [
     color: "text-sky-500",
   },
   {
-    label: "Token",
+    label: "Tokens",
     href: "/admin/tokens",
     icon: TicketIcon,
     color: "text-green-700",
@@ -44,7 +44,7 @@ const routes = [
     color: "text-orange-700",
   },
   {
-    label: "Counter",
+    label: "Counters",
     href: "/admin/counters",
     icon: MonitorIcon,
     color: "text-orange-700",
