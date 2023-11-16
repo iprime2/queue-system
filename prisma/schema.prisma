@@ -31,6 +31,8 @@ model User {
   updatedAt        DateTime   @updatedAt
 
   counter Counter[] @relation("CounterToUser")
+  tokens  Token[] @relation("TokenToUser")
+
 
 }
 
@@ -49,16 +51,25 @@ model Department {
 
 model Token {
   id             String     @id @default(uuid())
+  title          String
+  description    String
   tokenNo        Int
-  CounterId      String
-  departmentId String
-  department     Department @relation("DepartmentToToken", fields: [departmentId], references: [id])
-  closeddAt      DateTime
+  status         String
+  isCompleted    Boolean
+  userId         String?
+  user           User? @relation("TokenToUser", fields: [userId], references: [id])
+  counterId      String?
+  counter        Counter? @relation("TokenToCounter", fields: [counterId], references: [id])
+  departmentId   String?
+  department     Department? @relation("DepartmentToToken", fields: [departmentId], references: [id])
+  closedAt       DateTime?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 
   // counter Counter[] @relation("CounterToToken")
 
+  @@index([userId])
+  @@index([counterId])
   @@index([departmentId])
 }
 
@@ -74,6 +85,8 @@ model Counter {
   // token          Token      @relation("CounterToToken", fields: [tokenId], references: [id])
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  tokens  Token[] @relation("TokenToCounter")
 
   @@index([userId])
   @@index([departmentId])

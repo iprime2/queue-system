@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import prismadb from "@/lib/prismadb";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export const getCounters = async (selectFlag?: boolean) => {
+export const getTokens = async (selectFlag?: boolean) => {
   try {
     const session = await getServerSession(authOptions);
 
@@ -11,16 +11,21 @@ export const getCounters = async (selectFlag?: boolean) => {
       return null;
     }
 
-    let counters;
+    let tokens;
 
     if (selectFlag) {
-      counters = await prismadb.counter.findMany({
+      tokens = await prismadb.token.findMany({
         select: {
           id: true,
-          name: true,
-          online: true,
+          title: true,
           createdAt: true,
           user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          counter: {
             select: {
               id: true,
               name: true,
@@ -35,9 +40,15 @@ export const getCounters = async (selectFlag?: boolean) => {
         },
       });
     } else {
-      counters = await prismadb.counter.findMany({
+      tokens = await prismadb.token.findMany({
         include: {
           user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          counter: {
             select: {
               id: true,
               name: true,
@@ -47,14 +58,12 @@ export const getCounters = async (selectFlag?: boolean) => {
             select: {
               id: true,
               departmentName: true,
-              schoolName: true,
-              code: true,
             },
           },
         },
       });
     }
-    return counters;
+    return tokens;
   } catch (error) {
     console.log(error);
   }
